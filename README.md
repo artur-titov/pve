@@ -4,4 +4,15 @@ This is a simple infrastructure repository that demonstrate how to setup Proxmox
 
 The purpose of this repository is to demonstrate basic Ansible and Terraform concepts. This repository is not a ready-made platform. Network settings, storage and some other configurations are outside the scope of this repository.
 
-Successfully tested on bare metal.
+✅ Successfully tested on bare metal.
+
+## What has been implemented
+
+- [x] Initial node setup
+
+- add new sudo user with some settings;
+- configure access via ssh;
+- restrict root access;
+
+- [ ] Node management (in progress)
+- [ ] LXC setup (in progress)

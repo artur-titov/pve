@@ -1,0 +1,6 @@
+---
+# Starts only if SSH settings is updated
+- name: SSH reloader
+  ansible.builtin.service:
+    name: ssh
+    state: reloaded

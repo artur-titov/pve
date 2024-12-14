@@ -1,0 +1,16 @@
+---
+# HOW TO USE
+# :
+# Ping new host with Ansible:
+# ansible all -i inventories/hosts_bootstrap.yml -m ping --ask-pass
+#
+# Start playbook command:
+# ansible-playbook node_bootstrap.ansible.yml -i inventories/hosts_bootstrap.yml
+#
+# https://docs.ansible.com/ansible/2.8/user_guide/playbooks_best_practices.html
+#
+- name: Setup new node
+  hosts: all
+  become: true
+  roles:
+    - bootstrap
