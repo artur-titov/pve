@@ -1,0 +1,17 @@
+---
+# -----------------------------------------------------------------------------------+
+# Proxmox homelab inventories example.
+# -----------------------------------------------------------------------------------+
+#
+# Add to this group only nodes that you want to install.
+#
+nodes_to_install:
+  hosts:
+    192.168.1.100
+    192.168.1.101
+    192.168.1.102
+    192.168.1.103
+  vars:
+    # Credentials for first entry to nodes
+    ansible_user: "{{ username }}"
+    ansible_password: "{{ password }}"

@@ -1,0 +1,43 @@
+---
+- name: Install 'sudo' package
+  ansible.builtin.apt:
+    name:
+      - sudo
+    update_cache: true
+
+- name: Create a 'sudo' user with home directory
+  ansible.builtin.user:
+    name: "{{ sudo_user }}"
+    password: "{{ sudo_password | password_hash('sha512') }}"
+    create_home: true
+    append: true
+    groups: sudo
+    shell: /usr/bin/bash
+
+- name: Set 'sudo' user authorized key
+  ansible.posix.authorized_key:
+    user: "{{ sudo_user }}"
+    key: "{{ sudo_pub_key_to_become }}"
+    state: present
+
+- name: Add a welcome banner
+  ansible.builtin.copy:
+    src: files/banner
+    dest: /etc/banner
+    owner: root
+    group: root
+    mode: '0640'
+
+- name: Update SSH settings
+  ansible.builtin.blockinfile:
+    path: /etc/ssh/sshd_config.d/disable_root_login.conf
+    create: true
+    block: |
+      Banner /etc/banner
+      ChallengeResponseAuthentication no
+      PasswordAuthentication no
+      PermitRootLogin no
+      UsePAM no
+      Port {{ sudo_port }}
+    mode: "600"
+  notify: SSH reloader
