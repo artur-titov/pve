@@ -1,0 +1,14 @@
+---
+# ! After complete this task
+# make changes in ansible.cfg
+#
+- name: Old ssh-key remover
+  ansible.posix.authorized_key:
+    user: "{{ ansible_user }}"
+    key: "{{ sudo_pub_key_to_remove }}"
+    state: absent
+
+- name: SSH reloader
+  ansible.builtin.service:
+    name: ssh
+    state: reloaded

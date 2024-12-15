@@ -1,0 +1,9 @@
+---
+- name: Install 'sudo-user' SSH authorized keys
+  ansible.posix.authorized_key:
+    user: "{{ ansible_user }}"
+    key: "{{ sudo_pub_key_to_become }}"
+    state: present
+  notify:
+    - Old ssh-key remover
+    - SSH reloader
