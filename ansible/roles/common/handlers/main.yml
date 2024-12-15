@@ -1,0 +1,6 @@
+---
+# Removes unused packages
+- name: Packages cleaner
+  ansible.builtin.apt:
+    autoclean: true
+    autoremove: true
