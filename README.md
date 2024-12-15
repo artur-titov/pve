@@ -10,9 +10,13 @@ The purpose of this repository is to demonstrate basic Ansible and Terraform con
 
 - [x] Initial node setup
 
-- add new sudo user with some settings;
-- configure access via ssh;
-- restrict root access;
+1. add new sudo user with some settings;
+2. configure access via ssh;
+3. restrict root access;
 
-- [ ] Node management (in progress)
+- [x] Node management
+
+- packages updater;
+- ssh-key changer;
+
 - [ ] LXC setup (in progress)

@@ -1,11 +1,4 @@
 ---
-# HOW TO USE
-# :
-# ansible-playbook site.yml
-#
-# If you want to limit your playbook:
-# ansible-playbook site.yml --limit <hosts_group>
-#
 # https://docs.ansible.com/ansible/2.8/user_guide/playbooks_best_practices.html
 #
 - name: Keeps ssh-keys, users and passwords updated

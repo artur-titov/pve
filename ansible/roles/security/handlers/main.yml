@@ -1,6 +1,7 @@
 ---
-# ! After complete this task
-# make changes in ansible.cfg
+# ! If this task ran,
+# make changes in ansible.cfg and update sudo_pub_key
+# variables in inventories/group_vars/all.yml
 #
 - name: Old ssh-key remover
   ansible.posix.authorized_key:
