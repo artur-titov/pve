@@ -16,7 +16,7 @@ The purpose of this repository is to demonstrate basic Ansible and Terraform con
 
 - [x] Node management
 
-- packages updater;
-- ssh-key changer;
+1. packages updater;
+2. ssh-key changer;
 
 - [ ] LXC setup (in progress)
