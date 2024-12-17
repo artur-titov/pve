@@ -1,0 +1,22 @@
+---
+- name: Create a 'sudo' user with home directory
+  ansible.builtin.user:
+    name: "{{ sudo_user }}"
+    password: "{{ sudo_password | password_hash('sha512') }}"
+    create_home: true
+    append: true
+    groups: sudo
+    shell: /usr/bin/bash
+
+- name: Check if 'Terraform' user exist
+  ansible.builtin.slurp:
+    src: /etc/pve/user.cfg
+  register: file_content
+
+- name: Create 'Terraform' user
+  when: "'TerraformProv' not in (file_content.content | b64decode)"
+  ansible.builtin.shell: |
+    pveum role add TerraformProv -privs "{{ terraform_privileges }}"
+    pveum user add terraform-prov@pve --password "{{ terraform_password }}"
+    pveum aclmod / -user terraform-prov@pve -role TerraformProv
+    exit 0

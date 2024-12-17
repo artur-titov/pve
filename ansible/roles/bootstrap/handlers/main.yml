@@ -4,3 +4,15 @@
   ansible.builtin.service:
     name: ssh
     state: reloaded
+
+# Notify in Slack channel
+- name: Slack notificator
+  community.general.slack:
+    token: "{{ slack_token }}"
+    msg: |
+      New node bootstrapped!
+      ---
+      {{ ansible_facts.machine  }} {{ ansible_facts.form_factor }} {{ ansible_facts.product_name }}
+      Processor with {{ ansible_facts.processor_cores }} cores and {{ ansible_facts.processor_threads_per_core }} threads per core.
+      Total RAM is {{ ansible_facts.memtotal_mb }}mb
+      Internal IP address: {{ ansible_facts.default_ipv4.address }}
