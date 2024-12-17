@@ -2,3 +2,12 @@
 #
 .vscode
 .code-workspace
+
+# Temporary files
+#
+*.old
+*.bak
+
+# Ansible specific
+#
+ansible.log

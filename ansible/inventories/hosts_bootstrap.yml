@@ -8,10 +8,6 @@
 nodes_to_install:
   hosts:
     192.168.1.100
-    192.168.1.101
-    192.168.1.102
-    192.168.1.103
   vars:
-    # Credentials for first entry to nodes
-    ansible_user: "{{ username }}"
-    ansible_password: "{{ password }}"
+    ansible_user: "{{ root_user }}"
+    ansible_password: "{{ root_password }}"

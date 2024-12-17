@@ -41,3 +41,8 @@
       Port {{ sudo_port }}
     mode: "600"
   notify: SSH reloader
+
+- name: Send notification message via Slack
+  community.general.slack:
+    token: "{{ slack_token }}"
+    msg: '{{ inventory_hostname }} bootstrapped'
