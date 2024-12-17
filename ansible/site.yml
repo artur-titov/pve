@@ -1,13 +1,13 @@
 ---
 # https://docs.ansible.com/ansible/2.8/user_guide/playbooks_best_practices.html
 #
-- name: Keeps ssh-keys, users and passwords updated
-  hosts: all
+- name: Plays for ssh-keys settings
+  hosts: nodes
   become: true
   roles:
     - security
 
-- name: Keeps packages updated
+- name: Plays for host updates
   hosts: all
   become: true
   roles:
