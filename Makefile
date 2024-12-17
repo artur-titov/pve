@@ -1,3 +1,7 @@
+ALL_VARS_FILE=ansible/inventories/group_vars/all.yml
+HOSTS_BOOTSTRAP_FILE=ansible/inventories/hosts_bootstrap.yml
+
+
 help:
 	@echo "\nSupported commands:"
 	@echo "---------------------------------------------------------------------------+"
@@ -5,6 +9,7 @@ help:
 	@echo "- make group-vars-view             : View variables."
 	@echo "- make encrypt-vars                : Encrypt variables file."
 	@echo "- make decrypt-vars                : Decrypt variables file."
+	@echo "- make edit-vars                   : Edit variables file."
 	@echo ""
 	@echo "- make bootstrap-ping              : Ping new node before bootstrapping."
 	@echo "- make bootstrap                   : Setup new node in your homelab."
@@ -19,23 +24,26 @@ lint:
 
 
 group-vars-view:
-	ansible-vault view ansible/inventories/group_vars/all.yml
+	ansible-vault view ${ALL_VARS_FILE}
 
+
+edit-vars:
+	ansible-vault edit ${ALL_VARS_FILE}
 
 encrypt-vars:
-	ansible-vault encrypt ansible/inventories/group_vars/all.yml
+	ansible-vault encrypt ${ALL_VARS_FILE}
 
 
 decrypt-vars:
-	ansible-vault decrypt ansible/inventories/group_vars/all.yml
+	ansible-vault decrypt ${ALL_VARS_FILE}
 
 
 bootstrap-ping:
-	ansible all -i ansible/inventories/hosts_bootstrap.yml -m ping --ask-pass
+	ansible all -i ${HOSTS_BOOTSTRAP_FILE} -m ping --ask-pass
 
 
 bootstrap:
-	ansible-playbook ansible/node_bootstrap.ansible.yml -i ansible/inventories/hosts_bootstrap.yml
+	ansible-playbook ansible/node_bootstrap.ansible.yml -i ${HOSTS_BOOTSTRAP_FILE}
 
 
 site: # GROUP
