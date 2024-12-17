@@ -3,6 +3,5 @@
 #
 - name: Setup new node
   hosts: all
-  become: true
   roles:
     - bootstrap
