@@ -6,7 +6,7 @@ help:
 	@echo "\nSupported commands:"
 	@echo "---------------------------------------------------------------------------+"
 	@echo "- make lint                        : Lint your Ansible files."
-	@echo "- make group-vars-view             : View variables."
+	@echo "- make view-vars                   : View variables."
 	@echo "- make encrypt-vars                : Encrypt variables file."
 	@echo "- make decrypt-vars                : Decrypt variables file."
 	@echo "- make edit-vars                   : Edit variables file."
@@ -23,7 +23,7 @@ lint:
 	ansible-lint
 
 
-group-vars-view:
+view-vars:
 	ansible-vault view ${ALL_VARS_FILE}
 
 
