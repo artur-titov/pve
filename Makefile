@@ -26,13 +26,11 @@ lint:
 view-vars:
 	ansible-vault view ${ALL_VARS_FILE}
 
-
 edit-vars:
 	ansible-vault edit ${ALL_VARS_FILE}
 
 encrypt-vars:
 	ansible-vault encrypt ${ALL_VARS_FILE}
-
 
 decrypt-vars:
 	ansible-vault decrypt ${ALL_VARS_FILE}
@@ -40,7 +38,6 @@ decrypt-vars:
 
 bootstrap-ping:
 	ansible all -i ${HOSTS_BOOTSTRAP_FILE} -m ping --ask-pass
-
 
 bootstrap:
 	ansible-playbook ansible/node_bootstrap.ansible.yml -i ${HOSTS_BOOTSTRAP_FILE}
