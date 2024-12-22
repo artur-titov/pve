@@ -1,0 +1,9 @@
+---
+- name: Create a 'sudo' user with home directory
+  ansible.builtin.user:
+    name: "{{ sudo_user }}"
+    password: "{{ sudo_password | password_hash('sha512') }}"
+    create_home: true
+    append: true
+    groups: sudo
+    shell: /usr/bin/bash

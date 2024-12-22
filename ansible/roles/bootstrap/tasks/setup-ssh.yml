@@ -1,0 +1,29 @@
+---
+- name: Add a welcome banner
+  ansible.builtin.copy:
+    src: files/banner
+    dest: /etc/banner
+    owner: root
+    group: root
+    mode: '0640'
+
+- name: Set 'sudo' user authorized key
+  ansible.posix.authorized_key:
+    user: "{{ sudo_user }}"
+    key: "{{ sudo_pub_key_to_become }}"
+    state: present
+
+- name: Update SSH settings
+  ansible.builtin.blockinfile:
+    path: /etc/ssh/sshd_config.d/disable_root_login.conf
+    create: true
+    block: |
+      Banner /etc/banner
+      ChallengeResponseAuthentication no
+      PasswordAuthentication no
+      PermitRootLogin no
+      UsePAM no
+      Port {{ sudo_port }}
+    mode: "600"
+  notify:
+    - SSH reloader

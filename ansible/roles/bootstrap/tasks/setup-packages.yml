@@ -1,0 +1,7 @@
+---
+- name: Install 'sudo' package
+  ansible.builtin.apt:
+    name:
+      - sudo
+    state: present
+    update_cache: true

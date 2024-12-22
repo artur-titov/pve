@@ -1,8 +1,8 @@
 ---
-- name: Update and upgrade packages
-  ansible.builtin.apt:
-    update_cache: true
-    upgrade: true
-    purge: true
-  notify:
-    - Packages cleaner
+- name: Setup packages
+  ansible.builtin.include_tasks:
+    file: roles/common/tasks/setup-packages.yml
+
+- name: Setup users
+  ansible.builtin.include_tasks:
+    file: roles/common/tasks/setup-users.yml

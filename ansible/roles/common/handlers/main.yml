@@ -4,3 +4,13 @@
   ansible.builtin.apt:
     autoclean: true
     autoremove: true
+
+# Notify in Slack channel
+- name: Slack instance notificator
+  with_items: "{{ instances.results }}"
+  community.general.slack:
+    token: "{{ slack_token }}"
+    msg: |
+      Proxmox {{ item.invocation.module_args.api_host }}/{{ item.invocation.module_args.node }}.
+      Host {{ item.invocation.module_args.hostname }}: {{ item.msg }}.
+      ---
