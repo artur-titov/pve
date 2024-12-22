@@ -1,14 +1,9 @@
 ---
 # https://docs.ansible.com/ansible/2.8/user_guide/playbooks_best_practices.html
 #
-- name: For ssh-keys settings
+- name: Nodes common settings
   hosts: nodes
   become: true
   roles:
     - security
-
-- name: For host updates
-  hosts: all
-  become: true
-  roles:
     - common
