@@ -1,8 +1,14 @@
 # ---------------------------------------------------------------------+
 # File variables
 #
-ALL_VARS_FILE=ansible/inventories/group_vars/all.yml
-HOSTS_BOOTSTRAP_FILE=ansible/inventories/hosts_bootstrap.yml
+# Absible:
+ALL_VARS_FILE        = ansible/inventories/group_vars/all.yml
+HOSTS_BOOTSTRAP_FILE = ansible/inventories/hosts_bootstrap.yml
+SITE_FILE            = ansible/site.yml
+BOOTSTRAP_FILE       = ansible/node_bootstrap.ansible.yml
+# Terraform:
+TF_DIRECTORY         = terraform
+TFVARS_FILE          = variables.tfvars
 
 
 # ---------------------------------------------------------------------+
@@ -10,30 +16,44 @@ HOSTS_BOOTSTRAP_FILE=ansible/inventories/hosts_bootstrap.yml
 help:
 	@echo "\nSupported commands:"
 	@echo ""
-	@echo "- make lint                        : Lint your Ansible files."
-	@echo "- make view-vars                   : View variables."
-	@echo "- make encrypt-vars                : Encrypt variables file."
-	@echo "- make decrypt-vars                : Decrypt variables file."
-	@echo "- make edit-vars                   : Edit variables file."
+	@echo "Ping new node with Ansible:"
+	@echo "- make bootstrap-ping            : Ping new node before bootstrapping."
+	@echo "- make bootstrap                 : Setup new node in your homelab."
 	@echo ""
-	@echo "- make bootstrap-ping              : Ping new node before bootstrapping."
-	@echo "- make bootstrap                   : Setup new node in your homelab."
+	@echo "Ansible commands:"
+	@echo "- make ansible-lint              : Lint your Ansible files."
+	@echo "- make view-vars                 : View Ansible variables."
+	@echo "- make edit-vars                 : Edit Ansible variables file."
+	@echo "- make encrypt-vars              : Encrypt Ansible variables file."
+	@echo "- make decrypt-vars              : Decrypt Ansible variables file."
+	@echo "- make site                      : Play your site.yml file."
+	@echo "- make site GROUP=<group_name>   : Play your site.yml file with limits."
 	@echo ""
-	@echo "- make site                        : Play your site.yml file."
-	@echo "- make site GROUP=<group_name>     : Play your site.yml file with limits."
+	@echo "Terraform commands:"
+	@echo "- make tf-init                   : Terraform init."
+	@echo "- make tf-validate               : Validate Terraform files."
+	@echo "- make tf-plan                   : Plan Terraform infrastructure."
+	@echo "- make tf-apply                  : Apply Terraform infrastructure."
+	@echo "- make tf-destroy                : Destroy Terraform infrastructure."
 	@echo "\n"
 
 
 # ---------------------------------------------------------------------+
-# Lint
+# Ping new node with Ansible
 #
-lint:
-	ansible-lint
+bootstrap-ping:
+	ansible all -i ${HOSTS_BOOTSTRAP_FILE} -m ping --ask-pass
+
+bootstrap:
+	ansible-playbook ${BOOTSTRAP_FILE} -i ${HOSTS_BOOTSTRAP_FILE}
 
 
 # ---------------------------------------------------------------------+
-# Work with ansible-vault
+# Ansible commands
 #
+ansible-lint:
+	ansible-lint
+
 view-vars:
 	ansible-vault view ${ALL_VARS_FILE}
 
@@ -46,20 +66,28 @@ encrypt-vars:
 decrypt-vars:
 	ansible-vault decrypt ${ALL_VARS_FILE}
 
-
-bootstrap-ping:
-	ansible all -i ${HOSTS_BOOTSTRAP_FILE} -m ping --ask-pass
-
-bootstrap:
-	ansible-playbook ansible/node_bootstrap.ansible.yml -i ${HOSTS_BOOTSTRAP_FILE}
+site: # GROUP
+ifdef GROUP
+	ansible-playbook ${SITE_FILE} --limit ${GROUP}
+else
+	ansible-playbook ${SITE_FILE}
+endif
 
 
 # ---------------------------------------------------------------------+
-# Main Ansible command
+# Terraform commands
 #
-site: # GROUP
-ifdef GROUP
-	ansible-playbook ansible/site.yml --limit ${GROUP}
-else
-	ansible-playbook ansible/site.yml
-endif
+tf-init:
+	terraform -chdir=${TF_DIRECTORY} init
+
+tf-validate:
+	terraform -chdir=${TF_DIRECTORY} validate
+
+tf-plan:
+	terraform -chdir=${TF_DIRECTORY} plan -var-file="${TFVARS_FILE}"
+
+tf-apply:
+	terraform -chdir=${TF_DIRECTORY} apply -var-file="${TFVARS_FILE}"
+
+tf-destroy:
+	terraform -chdir=${TF_DIRECTORY} destroy -var-file="${TFVARS_FILE}"
